@@ -1,0 +1,260 @@
+<section id="editEventSection" class="modal" >
+  <h2>Edit Event</h2>
+  <form id="eventEditForm">
+    <input type="hidden" id="eventId" name="event_id">
+    
+    <div>
+      <label>Title</label>
+      <input type="text" id="title" name="title" required>
+    </div>
+
+    <div>
+      <label>Description</label>
+      <textarea id="description" name="description" required></textarea>
+    </div>
+
+    <div>
+      <label>Location</label>
+      <input type="text" id="location" name="location" required>
+    </div>
+
+    <div>
+      <label>Start</label>
+      <input type="datetime-local" id="startDatetime" name="start_datetime" required>
+    </div>
+
+    <div>
+      <label>End</label>
+      <input type="datetime-local" id="endDatetime" name="end_datetime" required>
+    </div>
+
+    <div>
+      <label>Volunteer Slots</label>
+      <input type="number" id="volunteerSlots" name="volunteer_slots" min="1" required>
+    </div>
+
+    <div>
+      <label>Status</label>
+      <select id="status" name="status" required>
+        <option value="upcoming">upcoming</option>
+        <option value="ongoing">ongoing</option>
+        <option value="completed">completed</option>
+        <option value="cancelled">cancelled</option>
+      </select>
+    </div>
+
+    <button type="submit">Save Changes</button>
+    <button type="button" id="cancelEditBtn">Cancel</button>
+    <div id="formMessage"></div>
+  </form>
+</section>
+
+<style>
+/* Container */
+#editEventSection {
+  max-width: 800px;
+  margin: 1.5rem auto;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  background-color: #fff;
+  display: none; /* will be shown via JS */
+  font-family: Arial, sans-serif;
+}
+
+/* Headings */
+#editEventSection h2 {
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  color: #333;
+  text-align: center;
+}
+
+/* Form rows */
+#eventEditForm div {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+#eventEditForm label {
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: #444;
+}
+
+/* Inputs, textarea, select */
+#eventEditForm input,
+#eventEditForm textarea,
+#eventEditForm select {
+  padding: 0.5rem 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+#eventEditForm input:focus,
+#eventEditForm textarea:focus,
+#eventEditForm select:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74,144,226,0.2);
+}
+
+/* Textarea */
+#eventEditForm textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Buttons */
+#eventEditForm button {
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+#eventEditForm button[type="submit"] {
+  background-color: #4a90e2;
+  color: #fff;
+}
+
+#eventEditForm button[type="submit"]:hover {
+  background-color: #357ab7;
+}
+
+#eventEditForm button[type="button"] {
+  background-color: #ccc;
+  color: #333;
+}
+
+#eventEditForm button[type="button"]:hover {
+  background-color: #aaa;
+}
+
+/* Form actions */
+#eventEditForm #formMessage {
+  margin-top: 0.8rem;
+  font-size: 0.95rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  #editEventSection {
+    padding: 1rem;
+  }
+  #eventEditForm button {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("eventEditForm");
+  if (!form) return;
+
+  const eventIdInput = document.getElementById("eventId");
+  const message = document.getElementById("formMessage");
+  const cancelBtn = document.getElementById("cancelEditBtn");
+  const fetchEventsUrl = "../api/profile/myEvents.php"; // GET user's events
+  const updateEventUrl = "../api/events/updateEvent.php"; // POST update
+
+  function qs(key) {
+    return new URLSearchParams(window.location.search).get(key);
+  }
+
+  function showMessage(text, error = false) {
+    message.textContent = text;
+    message.style.color = error ? "crimson" : "green";
+  }
+
+  // Prefill form
+  async function loadEvent() {
+    const eventId = qs("event_id");
+    if (!eventId) {
+      showMessage("No event ID provided in URL", true);
+      return;
+    }
+    eventIdInput.value = eventId;
+
+    try {
+      const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+      if (!currentUser) throw new Error("No logged-in user");
+
+      const res = await fetch(`${fetchEventsUrl}?user_id=${currentUser.user_id}`);
+      const data = await res.json();
+
+      if (!data.success) throw new Error(data.message || "Failed to fetch events");
+
+      const event = data.data.find(e => e.event_id == eventId);
+      if (!event) throw new Error("Event not found");
+
+      // Prefill inputs
+      document.getElementById("title").value = event.title;
+      document.getElementById("description").value = event.description;
+      document.getElementById("location").value = event.location;
+      document.getElementById("startDatetime").value = event.start_datetime;
+      document.getElementById("endDatetime").value = event.end_datetime;
+      document.getElementById("volunteerSlots").value = event.volunteer_slots;
+      document.getElementById("status").value = event.status;
+
+      document.getElementById("editEventSection").style.display = "block";
+      showMessage("Event loaded.");
+
+    } catch (err) {
+      console.error(err);
+      showMessage("Failed to load event: " + err.message, true);
+    }
+  }
+
+  // Handle form submit
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    showMessage("");
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Saving...";
+
+    const payload = {
+      event_id: eventIdInput.value,
+      title: document.getElementById("title").value.trim(),
+      description: document.getElementById("description").value.trim(),
+      location: document.getElementById("location").value.trim(),
+      start_datetime: document.getElementById("startDatetime").value,
+      end_datetime: document.getElementById("endDatetime").value,
+      volunteer_slots: parseInt(document.getElementById("volunteerSlots").value),
+      status: document.getElementById("status").value
+    };
+
+    try {
+      const res = await fetch(updateEventUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await res.json();
+      if (!data.success) throw new Error(data.message || "Update failed");
+
+      showMessage("Event updated successfully.");
+
+    } catch (err) {
+      console.error(err);
+      showMessage("Update failed: " + err.message, true);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Save Changes";
+    }
+  });
+
+  cancelBtn.addEventListener("click", () => window.history.back());
+
+  loadEvent();
+});
+</script>

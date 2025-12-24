@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <!-- IMMEDIATE AUTH CHECK AND REDIRECT -->
+    <script>
+        (function() {
+            'use strict';
+            const userData = sessionStorage.getItem('currentUser');
+            
+            if (!userData) {
+                // Set flag to indicate dashboard access attempt
+                sessionStorage.setItem('dashboardAccessAttempt', 'true');
+                // Redirect immediately
+                window.location.href = 'index.html';
+                return;
+            }
+        })(); 
+    </script>
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/events.css">
+    <link rel="stylesheet" href="css/blogs.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/ActionButton.css">
+    <link rel="stylesheet" href="css/registerNotification.css">
+</head>
+<body id="profile">
+    <!-- Navigation -->
+    <div id="navigation"></div>
+    <!-- Create Button -->
+    <div class="floating-action">
+        <button class="fab" id="createBtn">+</button>
+        <a href="CreateBlog.html"><img src="assets/images/b.png" alt="blog" id="b" class="b-img"></a>
+        <a href="CreateEvent.html"><img src="assets/images/e.png" alt="event" id="e" class="e-img"></a>
+    </div>
+<div class="profile-main">
+    <div class="p-container">
+        <div class="profile-card">
+            <div class="profile-picture">
+                <img id="profileImg" src="assets/images/pf1.png" alt="Profile Picture">
+                <input type="file" id="imgUpload" accept="image/*" style="display:none;">
+                <button id="changeImgBtn">Change Photo</button>
+            </div>
+
+           <div class="profile-info">
+        <p><strong>Name:</strong> <span id="userName"></span></p>
+        <p><strong>Email:</strong> <span id="userEmail"></span></p>
+        <p><strong>Bio:</strong> <span id="userBio"></span></p>
+        <p><strong>User ID:</strong> <span id="userId"></span></p>
+        <p><strong>Created At:</strong> <span id="createdAt"></span></p>
+        </div>
+        </div>
+
+        <div id="editFormContainer" class="edit-form-container hidden">
+            <h3>Edit Profile</h3>
+            <form id="editProfileForm">
+                <label for="name">Name:</label>
+                <input type="text" id="name" value="John Doe" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" value="johndoe@example.com" required>
+
+                <label for="bio">Bio:</label>
+                <textarea id="bio" rows="4">This is a short bio about John Doe. You can edit this.</textarea>
+
+                <button type="submit">Save Changes</button>
+                <button type="button" id="cancelEditBtn">Cancel</button>
+            </form>
+        </div>
+    </div>
+<div class="registration-info">
+<!-- Notification Section -->
+<div id="notificationsSection">
+    <h3>Notifications</h3>
+    <ul id="notificationsList">
+        <li>Loading notifications...</li>
+    </ul>
+   
+</div>
+<!-- My Registration Section -->
+<div id="myRegistrationsSection">
+    <h3>My Registrations</h3>
+    <ul id="myRegistrationsList">
+        <li>Loading notifications...</li>
+    </ul>
+</div>
+</div>
+</div>
+
+<div class="pf-container">
+<!-- User Events -->
+<div class="user-content">
+    <h3>My Events</h3>
+    <div id="userEvents" class="content-list"></div>
+    <div id="event-edit"></div>
+</div>
+
+<!-- User Blogs -->
+<div class="user-content">
+    <h3>My Blogs</h3>
+    <div id="userBlogs" class="content-list"></div>
+    <div id="blog-edit"></div>
+</div>
+
+</div>
+   
+    
+  
+
+    <!-- Loading Spinner -->
+    <div id="loading" class="loading" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Footer -->
+    <div id="footer"></div>
+
+
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script> 
+    <script src="js/profile.js"></script>
+    <script src="js/navigation.js"></script>
+</body>
+</html>

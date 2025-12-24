@@ -1,0 +1,147 @@
+<!-- blog-edit.html -->
+<section id="blogEventSection" class="modal" >
+  <h2>Edit Blog</h2>
+
+  <form id="blogEditForm" aria-label="Edit blog">
+    <input type="hidden" id="blogId" name="blog_id" />
+
+    <!-- Title -->
+    <div class="form-row">
+      <label for="title">Title</label>
+      <input id="title" name="title" type="text" maxlength="255" required />
+    </div>
+
+    <!-- Content -->
+    <div class="form-row">
+      <label for="content">Content</label>
+      <textarea id="content" name="content" rows="8" required></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" id="saveBlogBtn">Save Changes</button>
+      <button type="button" id="cancelBtn">Cancel</button>
+    </div>
+
+    <div id="formMessage" role="status" aria-live="polite" style="margin-top:0.5rem"></div>
+  </form>
+</section>
+
+<style>
+ 
+
+  #blogEventSection {
+    max-width: 800px;
+    margin: 1rem auto;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+  .form-row { margin-bottom: 0.75rem; display:flex; flex-direction:column; }
+  label { font-weight:600; margin-bottom:0.25rem; }
+  input, textarea {
+    padding:0.5rem; border:1px solid #ccc; border-radius:6px; font-size:1rem;
+  }
+  .form-actions { display:flex; gap:0.5rem; }
+  button { padding:0.5rem .8rem; border-radius:6px; cursor:pointer; }
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("blogEditForm");
+  if (!form) return; // only run on edit page
+
+  const blogIdInput = document.getElementById("blogId");
+  const saveBtn = document.getElementById("saveBlogBtn");
+  const cancelBtn = document.getElementById("cancelBtn");
+  const message = document.getElementById("formMessage");
+
+  const fetchBlogUrl = "../api/profile/myBlogs.php"; // GET user blogs
+  const updateBlogUrl = "../api/blogs/update.php";      // POST update blog
+
+  function qs(key) {
+    return new URLSearchParams(window.location.search).get(key);
+  }
+
+  function showMessage(text, error = false) {
+    message.textContent = text;
+    message.style.color = error ? "crimson" : "green";
+  }
+
+  // Prefill blog form
+  async function loadBlog() {
+    const blogId = qs("blog_id");
+    if (!blogId) {
+      showMessage("No blog ID provided in URL", true);
+      return;
+    }
+    blogIdInput.value = blogId;
+
+    try {
+      const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+      if (!currentUser) throw new Error("No logged-in user");
+
+      const res = await fetch(`${fetchBlogUrl}?user_id=${currentUser.user_id}`);
+      const data = await res.json();
+
+      if (!data.success) throw new Error(data.message || "Failed to fetch blogs");
+
+      const blog = data.data.find(b => b.blog_id == blogId);
+      if (!blog) throw new Error("Blog not found");
+
+      document.getElementById("title").value = blog.title || "";
+      document.getElementById("content").value = blog.content || "";
+
+      showMessage("Blog loaded.");
+    } catch (err) {
+      console.error(err);
+      showMessage("Failed to load blog: " + err.message, true);
+    }
+  }
+
+  // Handle blog update
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    message.textContent = "";
+    saveBtn.disabled = true;
+    saveBtn.textContent = "Saving...";
+
+    const payload = {
+      blog_id: blogIdInput.value,
+      title: document.getElementById("title").value.trim(),
+      content: document.getElementById("content").value.trim()
+    };
+
+    try {
+      const res = await fetch(updateBlogUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      // Try parsing JSON safely
+      const text = await res.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error("Invalid server response: " + text);
+      }
+
+      if (!data.success) throw new Error(data.message || "Update failed");
+
+      showMessage("Blog updated successfully.");
+    } catch (err) {
+      console.error(err);
+      showMessage("Update failed: " + err.message, true);
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.textContent = "Save Changes";
+    }
+  });
+
+  // Cancel button
+  cancelBtn.addEventListener("click", () => window.history.back());
+
+  loadBlog();
+});
+</script>
+

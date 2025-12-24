@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- IMMEDIATE AUTH CHECK AND REDIRECT -->
+    <script>
+        (function() {
+            'use strict';
+            const userData = sessionStorage.getItem('currentUser');
+            
+            if (!userData) {
+                // Set flag to indicate dashboard access attempt
+                sessionStorage.setItem('dashboardAccessAttempt', 'true');
+                // Redirect immediately
+                window.location.href = 'index.html';
+                return;
+            }
+        })();
+   
+document.addEventListener('DOMContentLoaded', () => {
+    const type = sessionStorage.getItem('notificationType');
+    const message = sessionStorage.getItem('notificationMessage');
+
+    if (type && message) {
+        showNotification(message, type);
+        // Clear after showing
+        sessionStorage.removeItem('notificationType');
+        sessionStorage.removeItem('notificationMessage');
+    }
+
+    function showNotification(message, type = 'success') {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+
+
+        document.body.appendChild(notification);
+
+         // Trigger the slide animation
+    setTimeout(() => notification.classList.add('show'), 50);
+
+    // Auto-remove after 3 seconds
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 500);
+    }, 3000);
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (sessionStorage.getItem('blogPublished') === 'true') {
+        showBlogPublishedNotification();
+        sessionStorage.removeItem('blogPublished');
+    }
+});
+
+function showBlogPublishedNotification() {
+    const notification = document.createElement('div');
+    notification.className = 'blog-published-notification';
+    notification.textContent = 'Blog published successfully!';
+    document.body.appendChild(notification);
+
+    // Auto-remove after 3 seconds
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+    
+
+
+    </script>
+    <link rel="stylesheet" href="css/dash.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/events.css">
+    <link rel="stylesheet" href="css/blogs.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/event-Filter.css">
+     <link rel="stylesheet" href="css/eventView.css">
+    <link rel="stylesheet" href="css/ActionButton.css">
+</head>
+<body id="dashboard">
+    <!-- Navigation -->
+    <div id="navigation"></div>
+
+    <!-- Create Button -->
+    <div class="floating-action">
+        <button class="fab" id="createBtn">+</button>
+        <a href="CreateBlog.html"><img src="assets/images/b.png" alt="blog" id="b" class="b-img"></a>
+        <a href="CreateEvent.html"><img src="assets/images/e.png" alt="event" id="e" class="e-img"></a>
+        <a href="#home"><button class="fab2" id="upBtn">^</button></a>
+    </div>
+    
+    <!-- Dashboard Main Content -->
+    <div class="dashboard-container">
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <div class="container">
+                
+                <h1>Welcome back, <span id="welcomeName"></span>! 👋</h1>
+                <p>Here's what's happening in your volunteering community.</p>
+            </div>
+        </section>
+          
+
+
+
+
+  
+        
+    <!-- Events Grid -->
+    <section class="events-grid-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Available Events</h2>                   
+                   <div class="view-toggle-dropdown">
+                   
+    <button class="view-btn-dropdown" id="viewBtn" onclick="toggleViewDropdown()">
+        Grid View 
+    </button>
+    <ul class="view-dropdown-menu" id="viewDropdown">
+        <li onclick="changeView('grid')">Grid View</li>
+        <li onclick="changeView('list')">List View</li>
+    </ul>
+</div>
+
+                </div>
+
+                <div id="eventsContainer" class="events-container-grid">
+                    <!-- Events will be loaded here -->
+                </div>
+
+                <div id="loadingEvents" class="loading-events">
+                    <div class="spinner"></div>
+                    <p>Loading events...</p>
+                </div>
+                
+                <div id="noEvents" class="no-events" style="display: none;">
+                    <div class="no-events-content">
+                        <h3>No events found</h3>
+                        <p>Try adjusting your filters or check back later for new opportunities.</p>
+                        <button class="btn-primary" onclick="clearFilters()">Clear Filters</button>
+                        <a href="CreateEvent.html"><button class="btn-secondary" style="margin-top: 1rem;">
+                            Create Event
+                        </button></a>
+                    </div>
+                </div>
+            </div>
+    </section>
+    <!-- Filters Section -->
+    <div class="filterdiv">
+    <section class="filters-section">
+            <div class="container">
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label for="statusFilter">Status</label>
+                        <select id="statusFilter" onchange="filterEvents()">
+                            <option value="">All Status</option>
+                            <option value="active">Active (Upcoming/Ongoing)</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="locationFilter">Location</label>
+                        <input type="text" id="locationFilter" placeholder="Search location..." onkeyup="filterEvents()">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="dateFilter">Date Range</label>
+                        <select id="dateFilter" onchange="filterEvents()">
+                            <option value="">Any Date</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="upcoming">Upcoming</option>
+                            <option value="past">Past Events</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="categoryFilter">Category</label>
+                        <select id="categoryFilter" onchange="filterEvents()">
+                            <option value="">All Categories</option>
+                            <option value="environment">🌱 Environment</option>
+                            <option value="education">📚 Education</option>
+                            <option value="healthcare">🏥 Healthcare</option>
+                            <option value="community">🏘️ Community</option>
+                            <option value="animals">🐾 Animals</option>
+                            <option value="seniors">👵 Seniors</option>
+                            <option value="children">🧒 Children</option>
+                            <option value="other">🎯 Other</option>
+                        </select>
+                    </div>
+
+                    <!-- Your Events Filter -->
+                    <div class="filter-group your-events-filter">
+                        <label class="your-events-toggle">
+                            <input type="checkbox" id="showYourEvents" onchange="filterEvents()">
+                            <span>Show only my events</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="filter-actions">
+                    <button class="btn-sec" onclick="clearFilters()">
+                        Clear Filters
+                    </button>
+                    <button class="btn-pr" onclick="refreshEvents()">
+                        Refresh
+                    </button>
+                </div>
+            </div>
+    </section>
+    </div>
+  
+
+    </div>
+    </div>
+    
+
+        <!-- Blogs Main Content -->
+    <div class="blogs-container">
+    
+    
+            
+                
+                
+                <!-- Quick Stats -->
+                <div class="quick-stats" style="display:none;">
+                    <div class="stat">
+                        <span class="stat-number" id="totalBlogs">0</span>
+                        <span class="stat-label">Total Posts</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="totalComments">0</span>
+                        <span class="stat-label">Total Comments</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="yourPosts">0</span>
+                        <span class="stat-label">Your Posts</span>
+                    </div>
+                </div>
+            
+  
+
+        <!-- Main Content Grid -->
+        <section class="main-content">
+            <div class="container">
+                <div class="content-layout">
+                    <!-- Blogs Column -->
+                    <div class="blogs-column">
+                        <div class="section-header">
+                            <h2>Latest Blog Posts</h2>
+                            <div class="blog-actions">
+                                <button class="btn-secondary" onclick="refreshBlogs()">
+                                    Refresh
+                                </button>
+                                 <!-- Quick Stats -->
+                                <div class="quick-stats" style="display:none;">
+                                    <div class="stat">
+                                        <span class="stat-number" id="totalBlogs">0</span>
+                                        <span class="stat-label">Total Posts</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-number" id="totalComments">0</span>
+                                        <span class="stat-label">Total Comments</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-number" id="yourPosts">0</span>
+                                        <span class="stat-label">Your Posts</span>
+                                    </div>
+                                </div>
+                                <div class="sort-options">
+                                    <label for="sortBy">Sort by:</label>
+                                    <select id="sortBy" onchange="sortBlogs()">
+                                        <option value="newest">Newest First</option>
+                                        <option value="oldest">Oldest First</option>
+                                        <option value="most_comments">Most Comments</option>
+                                        <option value="popular">Most Popular</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="blogsList" class="blogs-list">
+                            <!-- Blogs will be loaded here -->
+                        </div>
+
+                        <div id="loadingBlogs" class="loading-blogs">
+                            <div class="spinner"></div>
+                            <p>Loading blog posts...</p>
+                        </div>
+
+                        <div id="noBlogs" class="no-blogs" style="display: none;">
+                            <div class="no-blogs-content">
+                                <h3>No blog posts yet</h3>
+                                <p>Be the first to share your volunteering story with the community!</p>
+                                <button class="btn-primary" onclick="scrollToCreateSection()">Write Your First Post</button>
+                            </div>
+                        </div>
+
+                        <!-- Load More Button -->
+                        <div class="load-more-section">
+                            <button id="loadMoreBtn" class="btn-load-more" onclick="loadMoreBlogs()" style="display: none;">
+                                Load More Posts
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <div class="sidebar">
+                        <!-- Create Blog Card -->
+                        <div class="sidebar-card">
+                            <h3>Share Your Story</h3>
+                            <p>Inspire others by sharing your volunteering experiences and insights.</p>
+                            <a href="CreateBlog.html"><button class="btn-primary" > 
+                                Write a Blog Post
+                            </button></a>
+                        </div>
+
+                        <!-- Popular Tags -->
+                        <div class="sidebar-card">
+                            <h3>Popular Tags</h3>
+                            <div class="tags-cloud" id="tagsCloud">
+                                <!-- Tags will be loaded here -->
+                            </div>
+                        </div>
+
+                        <!-- Top Contributors -->
+                        <div class="sidebar-card">
+                            <h3>Top Contributors</h3>
+                            <div class="contributors-list" id="contributorsList">
+                                <!-- Contributors will be loaded here -->
+                            </div>
+                        </div>
+
+                        <!-- Community Guidelines -->
+                        <div class="sidebar-card guidelines">
+                            <h3>Community Guidelines</h3>
+                            <ul>
+                                <li>✅ Be respectful and kind</li>
+                                <li>✅ Share authentic experiences</li>
+                                <li>✅ Keep discussions constructive</li>
+                                <li>❌ No spam or self-promotion</li>
+                                <li>❌ No offensive content</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Register -->
+     <div id="notification" class="notification"></div>
+    
+
+
+    <!-- Register Modal -->
+<div id="registerModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <h2>Confirm Registration?</h2>
+    
+    <!-- Hidden inputs to send IDs to PHP -->
+    <input type="hidden" id="registerEventId">
+    <input type="hidden" id="registerUserId">
+    
+    <button class="btn-p1" onclick="confirmRegistration()">Confirm</button>
+    <button class="btn-p2" onclick="closeRegisterModal()">Cancel</button>
+  </div>
+</div>
+
+
+<style>
+
+
+.modal-content {
+    width: 300px;
+    padding: 20px;
+    background: #ffffff;
+    color: #ffffff;
+    border-radius: 8px;
+}
+
+.btn-p1, .btn-p2 {
+    width: 45%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 15px;
+    margin-right: 10px;
+}
+
+.btn-p1 { background: #4caf50; }
+.btn-p1:hover { background: #43a047; }
+
+.btn-p2 { background: #eb5757; }
+.btn-p2:hover { background: #cd3a32; }
+
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #4caf50;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s, transform 0.4s;
+    z-index: 9999;
+}
+
+.notification.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+
+
+</style>
+    <!-- event-details -->
+    <div id="event-details"></div> 
+    <!-- blog-details -->
+    <div id="blog-details"></div> 
+
+
+    <!-- Loading Spinner -->
+    <div id="loading" class="loading" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Footer -->
+    <div id="footer"></div>
+
+    <!-- Scripts -->
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/navigation.js"></script> 
+    <script src="js/events.js"></script>
+    <script src="js/showEvents.js"></script>
+    <script src="js/register.js"></script>
+    <script src="js/blogs.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

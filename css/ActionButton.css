@@ -1,0 +1,66 @@
+/* Container */
+.floating-action {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+/* FAB Button */
+.fab {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: px;
+}
+
+.fab:hover {
+    background: #c0392b;
+    transform: scale(1.1);
+}
+
+
+
+/* Hidden images initially */
+.b-img, 
+.e-img {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    position: relative; /* stays inside container */
+    cursor: pointer;
+}
+
+/* Sizes and spacing */
+.b-img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+.e-img {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 100px;
+}
+
+
+/* Show images when hovering container */
+.floating-action:hover .b-img,
+.floating-action:hover .e-img {
+    opacity: 1;
+    transform: translateY(0);
+}

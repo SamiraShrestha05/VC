@@ -1,0 +1,53 @@
+/* Events Grid Section */
+/* Container */
+.view-toggle-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Main button */
+.view-btn-dropdown {
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.view-btn-dropdown:hover {
+    background: #f0f0f0;
+}
+
+/* Dropdown menu */
+.view-dropdown-menu {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 110%;
+    left: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    list-style: none;
+    margin: 0;
+    padding:  0;
+    min-width: 82px;
+    z-index: 100;
+}
+
+/* Dropdown items */
+.view-dropdown-menu li {
+    padding: 5px 5px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.view-dropdown-menu li:hover {
+    background: #f0f0f0;
+}

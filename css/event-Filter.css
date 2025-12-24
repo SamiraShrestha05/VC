@@ -1,0 +1,188 @@
+/* ===== Filter Div Container ===== */
+.filterdiv {
+    background-color: #fff;       /* white background */
+    border: 1px solid #eee;       /* light gray border */
+    border-radius: 12px;          /* rounded corners */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1); /* subtle shadow */
+    padding: 20px;                /* inner spacing */
+    width: 300px;                 /* fixed width */
+    max-width: 100%;              /* responsive on small screens */
+    margin: 20px auto;            /* center horizontally with spacing top/bottom */
+    transition: all 0.3s ease;    /* smooth hover effect */
+}
+
+/* Optional: Hover effect */
+.filterdiv:hover {
+    transform: translateY(-3px);   /* slight lift on hover */
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+}
+
+/* Optional: inner grid layout if you have multiple filters inside */
+.filterdiv .filters-grid {
+    display: grid;
+    gap: 12px;
+}
+
+/* Optional: label styling */
+.filterdiv .filter-group label {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 4px;
+    color: #555;
+}
+
+/* Optional: input/select styling inside filterdiv */
+.filterdiv .filter-group select,
+.filterdiv .filter-group input[type="text"] {
+    width: 100%;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background: #fafafa;
+    color: #333;
+    font-size: 14px;
+    transition: border 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.filterdiv .filter-group select:focus,
+.filterdiv .filter-group input:focus {
+    outline: none;
+    border-color: #4caf50;
+    box-shadow: 0 0 6px #a8e6a3;
+    background: #fff;
+}
+
+/* ===== Base Styles ===== */
+.event-filter { 
+    padding: 8px 12px; 
+    font-size: 14px; 
+    border-radius: 6px; 
+    border: 1px solid #ccc; 
+    background: #fff; 
+    color: #333; 
+    cursor: pointer; 
+    transition: all 0.2s ease; 
+    display: flex; 
+    align-items: center; 
+    gap: 6px; 
+    margin-left: 0; /* remove large fixed margin */
+} 
+
+.event-filter:hover { 
+    background: #f0f0f0; 
+} 
+
+.filters-section { 
+    position: relative; /* changed from fixed */
+    top: auto;           /* reset top */
+    right: auto;         /* reset right */
+    z-index: 1;          /* lower z-index */
+    font-family: Arial, sans-serif; 
+    margin: 20px 0;      /* spacing instead of fixed margin */
+    background-color: #fff;
+}
+
+/* ===== Expanded Container ===== */
+.filters-section:hover .filter-toggle {
+    width: 160px;
+}
+
+.filters-section:hover .filter-toggle span {
+    opacity: 1;
+}
+
+/* ===== Filter Panel ===== */
+.filters-container {
+    background: #fff;
+    color: #333;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 10px;
+    width: 300px;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    border: 1px solid #eee;
+}
+
+/* Show panel on hover */
+.filters-section:hover .filters-container {
+    max-height: 1000px;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ===== Grid Layout ===== */
+.filters-grid {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+/* ===== Individual Filter Styling ===== */
+.filter-group label {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 4px;
+    color: #555;
+}
+
+.filter-group select,
+.filter-group input[type="text"] {
+    width: 100%;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background: #fafafa;
+    color: #333;
+    font-size: 14px;
+    transition: border 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.filter-group select:focus,
+.filter-group input:focus {
+    outline: none;
+    border-color: #4caf50;
+    box-shadow: 0 0 6px #a8e6a3;
+    background: #fff;
+}
+
+/* ===== Buttons ===== */
+.filter-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.btn-pr {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.btn-pr:hover {
+    background: #c0392b;
+}
+
+.btn-sec {
+    background: #1d7903;
+    color: white;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.btn-sec:hover {
+    background: #22a349;
+}

@@ -1,0 +1,522 @@
+/* Main profile layout */
+.profile-main {
+    display: flex;
+    gap: 20px; /* space between profile and registration sections */
+    padding: 20px;
+    box-sizing: border-box;
+    flex-wrap: wrap; /* allow stacking on small screens */
+}
+
+/* Profile container (left column) */
+.p-container {
+    flex: 1 1 300px; /* grow, shrink, min-width 300px */
+    max-width: 600px; /* optional max width */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Profile card */
+.profile-card {
+    background: #ffffff;
+    border: 1px solid #e6e9ee;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(16,24,40,0.06);
+}
+
+/* Profile picture */
+.profile-picture {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.profile-picture img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 2px solid #e6e9ee;
+}
+
+.profile-picture button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #3b82f6;
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.profile-picture button:hover {
+    background-color: #2563eb;
+}
+
+/* Profile info text */
+.profile-info p {
+    font-size: 0.95rem;
+    color: #0f172a;
+    margin-bottom: 6px;
+}
+
+/* Edit form */
+.edit-form-container {
+    background: #ffffff;
+    border: 1px solid #e6e9ee;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(16,24,40,0.06);
+}
+
+.edit-form-container.hidden {
+    display: none;
+}
+
+.edit-form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.edit-form-container input,
+.edit-form-container textarea {
+    padding: 8px 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.edit-form-container button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.edit-form-container button[type="submit"] {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.edit-form-container button[type="submit"]:hover {
+    background-color: #2563eb;
+}
+
+.edit-form-container button#cancelEditBtn {
+    background-color: #e5e7eb;
+}
+
+/* Registration info (right column) */
+.registration-info {
+    flex: 1 1 300px; /* grow, shrink, min-width 300px */
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Notifications and registrations boxes */
+#notificationsSection,
+#myRegistrationsSection {
+    background: #ffffff;
+    border: 1px solid #e6e9ee;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(16,24,40,0.06);
+}
+
+/* Lists inside notifications/registrations */
+#notificationsList li,
+#myRegistrationsList li {
+    background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(247,247,247,0.6));
+    padding: 12px 14px;
+    border: 1px solid #e6e9ee;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(16,24,40,0.06);
+    transition: all 0.15s ease;
+}
+
+#notificationsList li:hover,
+#myRegistrationsList li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16,24,40,0.08);
+}
+
+/* Responsive: stack columns on small screens */
+@media (max-width: 900px) {
+    .profile-main {
+        flex-direction: column;
+    }
+
+    .p-container,
+    .registration-info {
+        max-width: 100%;
+    }
+}
+
+/* Profile container as a two-column grid */
+.pf-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* two equal columns */
+    gap: 20px; /* space between columns */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Left column (Notifications + Registrations) */
+#notificationsSection,
+#myRegistrationsSection {
+    background: #ffffff;
+    border: 1px solid #e6e9ee;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(16,24,40,0.06);
+    margin-bottom: 20px;
+}
+
+/* Right column (Events + Blogs) */
+.user-content {
+    background: #ffffff;
+    border: 1px solid #e6e9ee;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(16,24,40,0.06);
+    margin-bottom: 20px;
+}
+
+/* Section headings */
+.pf-container h3 {
+    font-size: 1.2rem;
+    color: #0f172a;
+    margin-bottom: 12px;
+}
+
+/* Notifications & Registrations lists */
+#notificationsList li,
+#myRegistrationsList li {
+    background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(247,247,247,0.6));
+    padding: 12px 14px;
+    border: 1px solid #e6e9ee;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(16,24,40,0.06);
+    margin-bottom: 10px;
+    transition: all 0.15s ease;
+}
+
+#notificationsList li:hover,
+#myRegistrationsList li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16,24,40,0.08);
+}
+
+/* Event & Blog content lists */
+#userEvents .content-card,
+#userBlogs .content-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(247,247,247,0.6));
+    padding: 12px 14px;
+    border: 1px solid #e6e9ee;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(16,24,40,0.06);
+    margin-bottom: 12px;
+    transition: all 0.15s ease;
+}
+
+#userEvents .content-card:hover,
+#userBlogs .content-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(16,24,40,0.08);
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .profile-container {
+        grid-template-columns: 1fr; /* stack columns on smaller screens */
+    }
+}
+
+
+/* Notification section container */
+#notificationsSection {
+    background: #ffffff;
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    max-width: 450px;
+    font-family: Arial, sans-serif;
+}
+
+/* Title */
+#notificationsSection h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #222;
+}
+
+/* Notification list */
+#notificationsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Individual notification item */
+#notificationsList li {
+    background: #f7f7f7;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    border: 1px solid #e2e2e2;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Unread notification style */
+#notificationsList li.unread {
+    font-weight: bold;
+    border-left: 4px solid #2b6cb0; /* blue line */
+    background: #eef6ff;
+}
+/* My Registrations container */
+#myRegistrationsSection {
+    background: #ffffff;
+    padding: 16px;
+    border: 1px solid #e6e9ee;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+    max-width: 450px;
+    font-family: Inter, system-ui, Arial, sans-serif;
+    margin-top: 22px;
+}
+
+/* Title */
+#myRegistrationsSection h3 {
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+/* List */
+#myRegistrationsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Registration item */
+#myRegistrationsList li {
+    background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(247,247,247,0.6));
+    padding: 12px 14px;
+    border: 1px solid #e6e9ee;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(16,24,40,0.06);
+    transition: all 0.15s ease;
+}
+
+/* Hover effect */
+#myRegistrationsList li:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(16,24,40,0.08);
+}
+
+/* Highlight (if needed) */
+#myRegistrationsList li.highlight {
+    font-weight: 600;
+    border-left: 4px solid #38a169;
+    background: linear-gradient(180deg, #f0fff4, #ffffff);
+}
+
+/* Main message line */
+#myRegistrationsList li .msg {
+    font-size: 0.95rem;
+    color: #0f172a;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+/* Event info box */
+#myRegistrationsList li .event-info {
+    font-size: 0.85rem;
+    color: #475569;
+    line-height: 1.3;
+}
+
+/* Example small meta label */
+#myRegistrationsList li .label {
+    display: inline-block;
+    padding: 3px 6px;
+    background: #eef2ff;
+    color: #3730a3;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    margin-bottom: 6px;
+}
+
+/* User Events card */
+#userEvents .content-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(247,247,247,0.6));
+    padding: 12px 14px;
+    border: 1px solid #e6e9ee;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(16,24,40,0.06);
+    transition: all 0.15s ease;
+    margin-bottom: 12px;
+    max-width: 450px;
+}
+
+/* Hover effect */
+#userEvents .content-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(16,24,40,0.08);
+}
+
+/* Highlighted event */
+#userEvents .content-card.highlight {
+    font-weight: 600;
+    border-left: 4px solid #38a169;
+    background: linear-gradient(180deg, #f0fff4, #ffffff);
+}
+
+/* Event title / main message */
+#userEvents .content-card .msg {
+    font-size: 0.95rem;
+    color: #0f172a;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+/* Event info box */
+#userEvents .content-card .event-info {
+    font-size: 0.85rem;
+    color: #475569;
+    line-height: 1.3;
+}
+
+/* Small label / meta info */
+#userEvents .content-card .label {
+    display: inline-block;
+    padding: 3px 6px;
+    background: #eef2ff;
+    color: #3730a3;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    margin-bottom: 6px;
+}
+
+/* Buttons (edit/delete) */
+#userEvents .content-card button {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-right: 6px;
+}
+
+#userEvents .content-card .editBtn {
+    background-color: #3b82f6;
+    color: white;
+}
+
+#userEvents .content-card .editBtn:hover {
+    background-color: #2563eb;
+}
+
+#userEvents .content-card .deleteBtn {
+    background-color: #ef4444;
+    color: white;
+}
+
+#userEvents .content-card .deleteBtn:hover {
+    background-color: #dc2626;
+}
+
+/* User Blogs card */
+#userBlogs .content-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(247,247,247,0.6));
+    padding: 12px 14px;
+    border: 1px solid #e6e9ee;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(16,24,40,0.06);
+    transition: all 0.15s ease;
+    margin-bottom: 12px;
+    max-width: 450px;
+}
+
+/* Hover effect */
+#userBlogs .content-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(16,24,40,0.08);
+}
+
+/* Highlighted blog */
+#userBlogs .content-card.highlight {
+    font-weight: 600;
+    border-left: 4px solid #38a169;
+    background: linear-gradient(180deg, #f0fff4, #ffffff);
+}
+
+/* Blog title / main message */
+#userBlogs .content-card .msg {
+    font-size: 0.95rem;
+    color: #0f172a;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+/* Blog description / content */
+#userBlogs .content-card .event-info {
+    font-size: 0.85rem;
+    color: #475569;
+    line-height: 1.3;
+}
+
+/* Small label / meta info */
+#userBlogs .content-card .label {
+    display: inline-block;
+    padding: 3px 6px;
+    background: #eef2ff;
+    color: #3730a3;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    margin-bottom: 6px;
+}
+
+/* Buttons (edit/delete) */
+#userBlogs .content-card button {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-right: 6px;
+}
+
+#userBlogs .content-card .editBtn {
+    background-color: #3b82f6;
+    color: white;
+}
+
+#userBlogs .content-card .editBtn:hover {
+    background-color: #2563eb;
+}
+
+#userBlogs .content-card .deleteBtn {
+    background-color: #ef4444;
+    color: white;
+}
+
+#userBlogs .content-card .deleteBtn:hover {
+    background-color: #dc2626;
+}

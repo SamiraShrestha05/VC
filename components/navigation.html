@@ -1,0 +1,38 @@
+ <nav class="navbar">
+        <div class="logo-container" id="logoContainer">
+            <a href="dashboard.html" class="nav-link active"><img src="assets/images/v.png" alt="Logo" class="logo"></a>
+        </div>
+        <div class="nav-menu" id="navMenu">
+            <div class="home-only">
+            <a href="#home" class="nav-link">Home</a>
+            <a href="#opportunities" class="nav-link">Opportunities</a>
+            <a href="#footer" class="nav-link">About</a>
+            </div>
+        <div class="profile-container" id="profileContainer">
+            <a href="MyProfile.html"><img src="assets/images/pf.jpg" alt="Profile" class="profile-img"></a>
+            <div class="menu profile-menu" id="profileMenu">
+                <ul>
+                    <div id="authButtons">
+                        <li class="btn-login" onclick="showLoginModal()">Login</li>
+                        <li class="" onclick="showRegisterModal()">Register</li>
+                    </div>
+                    <div id="userMenu" class="user-menu" style="display: none;">
+                        <li class="btn-logout" onclick="logout()">Logout</li>
+                    </div>
+                </ul>
+            </div>
+        </div>
+        </div>
+</nav>
+<style>
+    /* Hide by default */
+.home-only {
+  display: none;
+}
+
+/* Show only on the homepage */
+body#home .home-only {
+  display: block;
+}
+
+</style>

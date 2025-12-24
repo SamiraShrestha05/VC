@@ -1,0 +1,25 @@
+<section id="opportunities" class="opportunities">
+    <div class="container">
+        <h2 class="section-title">Volunteering Opportunities</h2>
+        <p class="section-subtitle">Find the perfect opportunity to contribute your time and talents to causes you care about.</p>
+        
+        <div class="filters">
+            <select id="categoryFilter" onchange="filterOpportunities()">
+                <option value="">All Categories</option>
+                <option value="education">Education</option>
+                <option value="environment">Environment</option>
+                <option value="healthcare">Healthcare</option>
+                <option value="community">Community</option>
+            </select>
+            <select id="locationFilter" onchange="filterOpportunities()">
+                <option value="">All Locations</option>
+                <option value="remote">Remote</option>
+                <option value="onsite">On-site</option>
+            </select>
+        </div>
+        
+        <div id="opportunitiesList" class="opportunities-grid">
+            <!-- Opportunities will be loaded here dynamically -->
+        </div>
+    </div>
+</section>

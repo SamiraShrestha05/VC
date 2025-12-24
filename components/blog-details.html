@@ -1,0 +1,28 @@
+<!-- Blog Details Modal -->
+<div id="blogModal" class="modal" role="dialog" aria-hidden="true">
+  <div id="blogModalContentWrapper" class="modal-content" role="document">
+    <span class="close" onclick="closeBlogModal()">&times;</span>
+    <div id="blogModalContent"></div>
+  </div>
+</div>
+<style>
+.modal-content {
+    background: #1e1e1e;
+    padding: 20px;
+    width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    border-radius: 10px;
+    color: #fff;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+</style>

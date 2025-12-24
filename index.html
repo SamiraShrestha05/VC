@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Connect - Make a Difference</title>
+    <!-- Add this to index.html, preferably in the head or before closing body tag -->
+<script>
+// Check for dashboard access attempt when index.html loads
+document.addEventListener('DOMContentLoaded', function() {
+    const dashboardAccessAttempt = sessionStorage.getItem('dashboardAccessAttempt');
+    
+    if (dashboardAccessAttempt === 'true') {
+        // Show notification for dashboard access attempt
+        showDashboardAccessNotification();
+        // Clear the flag
+        sessionStorage.removeItem('dashboardAccessAttempt');
+    }
+});
+
+function showDashboardAccessNotification() {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        color: white;
+        font-weight: 500;
+        z-index: 10000;
+        background: #e74c3c;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        border: 1px solid #c0392b;
+        animation: notificationSlideIn 0.3s ease-out;
+        max-width: 400px;
+        word-wrap: break-word;
+        cursor: pointer;
+    `;
+    notification.textContent = 'Please log in to access the dashboard';
+    
+    document.body.appendChild(notification);
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.style.animation = 'notificationSlideOut 0.3s ease-in';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }
+    }, 5000);
+    
+    // Add click to dismiss
+    notification.addEventListener('click', () => {
+        if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+        }
+    });
+    
+    // Add notification styles if not already present
+    if (!document.getElementById('notification-styles')) {
+        const styles = document.createElement('style');
+        styles.id = 'notification-styles';
+        styles.textContent = `
+            @keyframes notificationSlideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes notificationSlideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(styles);
+    }
+}
+
+// Check for logout notification when index.html loads
+document.addEventListener('DOMContentLoaded', function() {
+    const showLogoutNotification = sessionStorage.getItem('showLogoutNotification');
+    
+    if (showLogoutNotification === 'true') {
+        showLogoutNotificationOnIndex();
+        // Clear the flag
+        sessionStorage.removeItem('showLogoutNotification');
+    }
+});
+
+function showLogoutNotificationOnIndex() {
+    // Remove any existing notifications first
+    const existingNotifications = document.querySelectorAll('.logout-notification');
+    existingNotifications.forEach(notification => {
+        if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+        }
+    });
+
+    const notification = document.createElement('div');
+    notification.className = 'logout-notification';
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        color: white;
+        font-weight: 500;
+        z-index: 10000;
+        background: #10b981;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        border: 1px solid #059669;
+        animation: logoutNotificationSlideIn 0.3s ease-out;
+        max-width: 400px;
+        word-wrap: break-word;
+        cursor: pointer;
+    `;
+    notification.textContent = 'Logged out successfully';
+    
+    document.body.appendChild(notification);
+    
+    // Auto remove after 4 seconds
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.style.animation = 'logoutNotificationSlideOut 0.3s ease-in';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }
+    }, 4000);
+    
+    // Add click to dismiss
+    notification.addEventListener('click', () => {
+        if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+        }
+    });
+    
+    // Add notification styles
+    addLogoutNotificationStyles();
+}
+
+function addLogoutNotificationStyles() {
+    if (document.getElementById('logout-notification-styles')) return;
+
+    const styles = `
+        @keyframes logoutNotificationSlideIn {
+            from { 
+                transform: translateX(100%); 
+                opacity: 0; 
+            }
+            to { 
+                transform: translateX(0); 
+                opacity: 1; 
+            }
+        }
+        @keyframes logoutNotificationSlideOut {
+            from { 
+                transform: translateX(0); 
+                opacity: 1; 
+            }
+            to { 
+                transform: translateX(100%); 
+                opacity: 0; 
+            }
+        }
+        .logout-notification:hover {
+            transform: translateY(-2px);
+            transition: transform 0.2s ease;
+        }
+    `;
+
+    const styleSheet = document.createElement('style');
+    styleSheet.id = 'logout-notification-styles';
+    styleSheet.textContent = styles;
+    document.head.appendChild(styleSheet);
+}
+</script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/navigation.css"> 
+</head>
+<body id="home">
+    <!-- Navigation -->
+    <div id="navigation"></div>
+
+     <!-- Hero Section -->
+    <div id="hero"></div>
+
+    <!-- Stats Section -->
+    <div id="stats"></div>
+
+    <!-- Opportunities Section -->
+    <div id="opportunities-section"></div>
+
+    
+
+    <!-- Footer -->
+    <div id="footer"></div>
+
+    <!-- Login Modal -->
+    <div id="login-modal"></div>
+
+    <!-- Register Modal -->
+    <div id="register-modal"></div>
+
+  
+    
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/navigation.js"></script> 
+</body>
+</html>
