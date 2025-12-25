@@ -294,40 +294,64 @@ function logout() {
 }
 
 // Placeholder functions
-function viewBlogDetails(blogId) {
-    console.log('View blog details:', blogId);
+// ================= BLOG MODAL =================
 
-    // Find blog by ID
-    const blog = blogs.find(b => b.id === blogId);
+function viewBlogDetails(blogId) {
+    // ✅ FIX: use allBlogs
+    const blog = allBlogs.find(b => b.blog_id == blogId);
     if (!blog) {
-        alert("Blog not found!");
+        console.error("❌ Blog not found:", blogId);
         return;
     }
 
-    // Populate modal content
-    const modalContent = document.getElementById('blogModalContent');
-    modalContent.innerHTML = `
+    const modal = document.getElementById('blogModal');
+    const content = document.getElementById('blogModalContent');
+
+    content.innerHTML = `
         <h2>${blog.title}</h2>
-        <p>${blog.content}</p>
+
+        <p style="opacity:0.8; font-size:14px; margin-bottom:10px;">
+            <strong>By:</strong> ${blog.author_name || 'Unknown'} |
+            <strong>Date:</strong> ${formatDate(blog.created_at)}
+        </p>
+
+        <p style="line-height:1.7;">${blog.content}</p>
     `;
 
-    // Show modal
-    const modal = document.getElementById('blogModal');
-    modal.style.display = 'block';
+    modal.style.display = 'flex';
+    modal.setAttribute('aria-hidden', 'false');
 }
 
-// Close modal function
 function closeBlogModal() {
-    document.getElementById('blogModal').style.display = 'none';
+    const modal = document.getElementById('blogModal');
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
 }
 
-// Optional: close modal on outside click
-window.onclick = function(event) {
+// ✅ Safe click-outside-to-close
+document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('blogModal');
-    if (event.target === modal) {
-        modal.style.display = 'none';
-    }
+    if (!modal) return;
+
+    modal.addEventListener('click', (e) => {
+        const wrapper = document.getElementById('blogModalContentWrapper');
+        if (!wrapper.contains(e.target)) {
+            closeBlogModal();
+        }
+    });
+});
+
+// ================= HELPERS =================
+
+function formatDate(dateStr) {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+    });
 }
+
 
 function shareBlog(blogId) {
     const url = window.location.href;
@@ -354,4 +378,11 @@ function loadMoreBlogs() {
 function closeBlogModal() {
     document.getElementById('blogModal').style.display = 'none';
 }
+
+  // Cancel function
+        function cancelBlogCreation() {
+            if (confirm('Are you sure you want to cancel? All unsaved changes will be lost.')) {
+                window.location.href = 'dashboard.html'; // or wherever you want to redirect
+            }
+        }
 

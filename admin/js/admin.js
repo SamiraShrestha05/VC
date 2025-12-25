@@ -36,7 +36,7 @@ function loadUsers(){
 
 // Open & Close Modal
 const modal = document.getElementById('addUserModal');
-document.getElementById('openAddUserModal').onclick = () => modal.style.display = 'block';
+document.getElementById('openAddUserModal').onclick = () => modal.style.display = 'flex';
 
 function closeAddUserModal(){ document.getElementById('addUserModal').style.display='none'; }
 window.onclick = e => { if(e.target == modal) modal.style.display = 'none'; };

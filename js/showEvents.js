@@ -331,6 +331,7 @@ function toggleViewDropdown() {
     dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
 }
 
+
 // Close dropdown if clicked outside
 window.addEventListener('click', function(e) {
     const dropdown = document.getElementById('viewDropdown');
@@ -375,6 +376,8 @@ function clearFilters() {
 function refreshEvents() {
     loadEvents();
 }
+
+
 
 // UI helpers
 function showLoading(show) {

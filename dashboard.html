@@ -116,8 +116,11 @@ function showBlogPublishedNotification() {
     <section class="events-grid-section">
             <div class="container">
                 <div class="section-header">
-                    <h2>Available Events</h2>                   
+                    <h2>Available Events</h2>    
+                                  
                    <div class="view-toggle-dropdown">
+                     
+   
                    
     <button class="view-btn-dropdown" id="viewBtn" onclick="toggleViewDropdown()">
         Grid View 
@@ -132,6 +135,7 @@ function showBlogPublishedNotification() {
 
                 <div id="eventsContainer" class="events-container-grid">
                     <!-- Events will be loaded here -->
+                     
                 </div>
 
                 <div id="loadingEvents" class="loading-events">
@@ -152,7 +156,7 @@ function showBlogPublishedNotification() {
             </div>
     </section>
     <!-- Filters Section -->
-    <div class="filterdiv">
+    <div class="filterdiv" id="filter" style="display:none;">
     <section class="filters-section">
             <div class="container">
                 <div class="filters-grid">
@@ -276,7 +280,7 @@ function showBlogPublishedNotification() {
                                         <span class="stat-label">Your Posts</span>
                                     </div>
                                 </div>
-                                <div class="sort-options">
+                                <div class="sort-options" style="display: none;">
                                     <label for="sortBy">Sort by:</label>
                                     <select id="sortBy" onchange="sortBlogs()">
                                         <option value="newest">Newest First</option>
@@ -325,7 +329,7 @@ function showBlogPublishedNotification() {
                         </div>
 
                         <!-- Popular Tags -->
-                        <div class="sidebar-card">
+                        <div class="sidebar-card" style="display:none;">
                             <h3>Popular Tags</h3>
                             <div class="tags-cloud" id="tagsCloud">
                                 <!-- Tags will be loaded here -->
@@ -333,7 +337,7 @@ function showBlogPublishedNotification() {
                         </div>
 
                         <!-- Top Contributors -->
-                        <div class="sidebar-card">
+                        <div class="sidebar-card" style="display:none;">
                             <h3>Top Contributors</h3>
                             <div class="contributors-list" id="contributorsList">
                                 <!-- Contributors will be loaded here -->

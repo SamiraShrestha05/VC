@@ -15,7 +15,7 @@ class Dashboard {
         await this.loadDashboardData();
         this.attachEventListeners();
     }
-
+    
     async loadDashboardData() {
         try {
             showLoading();

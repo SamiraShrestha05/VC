@@ -1,5 +1,4 @@
-
-        document.addEventListener('DOMContentLoaded', function() {
+   document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('createEventForm'); // Fixed form ID
             const alertSuccess = document.getElementById('alert-success');
             const alertError = document.getElementById('alert-error');
@@ -93,7 +92,7 @@
     });
 }
 
-        });
+});
 
         // Cancel function
         function cancelEventCreation() {
@@ -102,3 +101,6 @@
             }
             
         }
+
+
+
