@@ -44,6 +44,7 @@
     </div>
 
     <button type="submit">Save Changes</button>
+    <button type="button" onclick='deleteUser()'>Delete</button>
     <button type="button" id="cancelEditBtn">Cancel</button>
     <div id="formMessage"></div>
   </form>
@@ -255,6 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   cancelBtn.addEventListener("click", () => window.history.back());
 
+  
   loadEvent();
 });
 </script>

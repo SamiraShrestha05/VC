@@ -34,33 +34,35 @@ function loadUsers(){
     .catch(err => console.error(err));
 }
 
-function addUser(){
-    const username = prompt("Enter username");
-    const email = prompt("Enter email");
-    const full_name = prompt("Enter full name");
-    const password = prompt("Enter password");
+// Open & Close Modal
+const modal = document.getElementById('addUserModal');
+document.getElementById('openAddUserModal').onclick = () => modal.style.display = 'block';
 
-    if(!username || !email || !full_name || !password) return;
+function closeAddUserModal(){ document.getElementById('addUserModal').style.display='none'; }
+window.onclick = e => { if(e.target == modal) modal.style.display = 'none'; };
 
-    let formData = new FormData();
-    formData.append('action','add');
-    formData.append('username',username);
-    formData.append('email',email);
-    formData.append('full_name',full_name);
-    formData.append('password',password);
+// Handle form submission
+document.getElementById('addUserForm').addEventListener('submit', function(e){
+    e.preventDefault();
 
-    fetch('ajax/users.php',{
-        method:'POST',
+    const formData = new FormData(this);
+    formData.append('action', 'add');
+
+    fetch('ajax/users.php', {
+        method: 'POST',
         body: formData
     })
     .then(res => res.json())
     .then(data => {
-        alert(data.message);
-        if(data.success) loadUsers();
+        alert(data.message || data.error);
+        if(data.success){
+            modal.style.display = 'none';
+            this.reset();
+            loadUsers(); // Reload users table
+        }
     })
     .catch(err => console.error(err));
-}
-
+});
 
 // ===== Edit User =====
 function editUser(user_id){
@@ -126,32 +128,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 2️⃣ Bind Add Event form submission
     const addForm = document.getElementById('addEventForm');
-    addForm.addEventListener('submit', function(e){
-        e.preventDefault();
 
-        let fd = new FormData(this);
-        fd.append('action', 'add');  // important for PHP
+addForm.addEventListener('submit', function(e){
+    e.preventDefault();
 
-        console.log([...fd.entries()]); // optional: debug form data
+    let fd = new FormData(this);
 
-        fetch('ajax/events.php', {
-            method: 'POST',
-            body: fd
-        })
-        .then(res => res.json())
-        .then(data => {
-            alert(data.message || (data.success ? 'Event added' : 'Failed'));
-            if(data.success){
-                closeAddEventModal();  // hide modal
-                loadEvents();          // refresh table
-                this.reset();          // clear form
-            }
-        })
-        .catch(err => {
-            console.error(err);
-            alert('Error adding event');
-        });
+    // Convert datetime-local to MySQL DATETIME
+    let start = fd.get('start_datetime'); 
+    let end = fd.get('end_datetime');
+    fd.set('start_datetime', start.replace('T',' ') + ':00'); 
+    fd.set('end_datetime', end.replace('T',' ') + ':00');
+
+    fd.append('action','add');
+
+    fetch('ajax/events.php',{
+        method:'POST',
+        body: fd
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert(data.message || (data.success?'Added':'Failed'));
+        if(data.success){
+            closeAddEventModal();
+            loadEvents();
+            this.reset();
+        }
+    })
+    .catch(err=>{
+        console.error(err);
+        alert('Error adding event');
     });
+});
+
 
     // Optional: Bind Add Event button to show modal
     const addBtn = document.getElementById('add-event-btn');
@@ -376,18 +385,6 @@ function loadBlogs(){
 function showAddBlogModal(){ document.getElementById('addBlogModal').style.display='flex'; }
 function closeAddBlogModal(){ document.getElementById('addBlogModal').style.display='none'; }
 
-document.getElementById('addBlogForm').addEventListener('submit',function(e){
-    e.preventDefault();
-    let fd=new FormData(this);
-    fd.append('action','add');
-
-    fetch('ajax/blogs.php',{method:'POST',body:fd})
-    .then(res=>res.json())
-    .then(data=>{
-        alert(data.message || (data.success?'Added':'Failed'));
-        if(data.success){ closeAddBlogModal(); loadBlogs(); this.reset(); }
-    });
-});
 
 // ===== Edit Blog =====
 function editBlog(id){

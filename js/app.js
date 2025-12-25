@@ -13,8 +13,8 @@ async function loadComponents() {
     const components = [  
         { id: 'navigation', file: 'components/navigation.html' },
         { id: 'hero', file: 'components/hero.html' },
-        { id: 'opportunities-section', file: 'components/opportunities.html' },
         { id: 'stats', file: 'components/stats.html' },
+        { id: 'opportunities', file: 'components/opportunities.html' },        
         { id: 'footer', file: 'components/footer.html' },
         { id: 'login-modal', file: 'components/login-modal.html' },
         { id: 'register-modal', file: 'components/register-modal.html' }, 

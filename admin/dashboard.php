@@ -28,7 +28,7 @@ require_once("db/connection.php");
 
     <div id="users" class="tab-content" >
         <h2>Users</h2>
-        <button class="add" onclick="addUser()">Add User</button>
+        <button id="openAddUserModal" class="add">Add User</button>
         <table id="users-table">
             <thead>
                 <tr>
@@ -45,7 +45,7 @@ require_once("db/connection.php");
                             <td>{$row['email']}</td>
                             <td>{$row['full_name']}</td>
                             <td>
-                                <button onclick='editUser({$row['user_id']})'>Edit</button>
+                                <button onclick='editUser( {$row['user_id']} )'>Edit</button>
                                 <button onclick='deleteUser({$row['user_id']})'>Delete</button>
                             </td>
                           </tr>";
@@ -55,6 +55,33 @@ require_once("db/connection.php");
         </table>
         
     </div>
+
+<!-- Add User Modal -->
+<div id="addUserModal" class="modal" style="display:none;" >
+    <div class="modal-backdrop" onclick="closeAddUserModal()"></div>
+     <div class="modal-card">
+        <h3>Add User</h3>
+    
+      <form id="addUserForm">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="full_name">Full Name</label>
+      <input type="text" id="full_name" name="full_name" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required>
+
+      <button type="submit" class="add">Add User</button>
+    </form>
+    </div>
+  </div>
+
+
+
 
 <div id="events" class="tab-content" style="display:none;">
     <h2>Events</h2>

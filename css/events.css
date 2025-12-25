@@ -389,6 +389,43 @@ body {
     margin-top: 0.3rem;
     font-style: italic;
 }
+/* ===== Buttons ===== */
+.filter-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.btn-secondary {
+    background: #d01703;
+    color: white;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.btn-secondary:hover {
+    background: #fc5454;
+}
+
+.btn-primary {
+    background: #1d7903;
+    color: white;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background: #22a349;
+}
+
 
 /* Organizer Info */
 .organizer-info {

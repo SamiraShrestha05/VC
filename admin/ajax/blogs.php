@@ -99,3 +99,4 @@ if($action === 'delete'){
 
 echo json_encode(['success'=>false,'message'=>'Invalid action']);
 exit();
+?>
