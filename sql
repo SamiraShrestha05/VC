@@ -95,50 +95,8 @@ CREATE TABLE BLOG (
     FOREIGN KEY (author_id) REFERENCES USER(user_id) ON DELETE CASCADE
 );
 
--- COMMENT table
-CREATE TABLE COMMENT (
-    comment_id INT AUTO_INCREMENT PRIMARY KEY,
-    content TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    user_id INT,
-    blog_id INT,
-    FOREIGN KEY (user_id) REFERENCES USER(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (blog_id) REFERENCES BLOG(blog_id) ON DELETE CASCADE
-);
 
--- REPORT table
-CREATE TABLE REPORT (
-    report_id INT AUTO_INCREMENT PRIMARY KEY,
-    reason TEXT NOT NULL,
-    status ENUM('pending', 'reviewed', 'resolved', 'dismissed') DEFAULT 'pending',
-    reported_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    reported_by_user_id INT,
-    reported_blog_id INT NULL,
-    reported_event_id INT NULL,
-    FOREIGN KEY (reported_by_user_id) REFERENCES USER(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (reported_blog_id) REFERENCES BLOG(blog_id) ON DELETE SET NULL,
-    FOREIGN KEY (reported_event_id) REFERENCES EVENT(event_id) ON DELETE SET NULL
-);
 
--- Add these tables to your database
-
--- For tracking blog views
-CREATE TABLE blog_views (
-    blog_id INT,
-    view_count INT DEFAULT 1,
-    viewed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (blog_id),
-    FOREIGN KEY (blog_id) REFERENCES BLOG(blog_id) ON DELETE CASCADE
-);
-
--- For blog tags
-CREATE TABLE blog_tags (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    blog_id INT,
-    tag_name VARCHAR(50),
-    FOREIGN KEY (blog_id) REFERENCES BLOG(blog_id) ON DELETE CASCADE,
-    INDEX (tag_name)
-);
 
 -- Insert sample data
 INSERT INTO USER (username, password_hash, email, full_name, role, profile_bio) VALUES
@@ -158,10 +116,6 @@ INSERT INTO BLOG (title, content, author_id) VALUES
 ('Community Garden Success Story', 'How our community garden project helped bring neighbors together...', 3),
 ('5 Benefits of Regular Volunteering', 'Discover how volunteering can improve your mental health and social connections...', 2);
 
-INSERT INTO COMMENT (content, user_id, blog_id) VALUES
-('Great post! I completely agree with your points.', 3, 1),
-('This inspired me to start volunteering too!', 2, 2),
-('Thanks for sharing these insights.', 1, 3);
 
 INSERT INTO VOLUNTEER_REGISTRATION (user_id, event_id, status) VALUES
 (2, 1, 'confirmed'),
