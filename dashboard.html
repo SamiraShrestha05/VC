@@ -76,7 +76,6 @@ function showBlogPublishedNotification() {
     <link rel="stylesheet" href="css/events.css">
     <link rel="stylesheet" href="css/blogs.css">
     <link rel="stylesheet" href="css/footer.css">
-    <link rel="stylesheet" href="css/event-Filter.css">
      <link rel="stylesheet" href="css/eventView.css">
     <link rel="stylesheet" href="css/ActionButton.css">
 </head>
@@ -101,158 +100,48 @@ function showBlogPublishedNotification() {
         <section class="welcome-section">
             <div class="container">
                 
-                <h1>Welcome back, <span id="welcomeName"></span>! 👋</h1>
+                <h1>Welcome <span id="welcomeName"></span>! 👋</h1>
                 <p>Here's what's happening in your volunteering community.</p>
             </div>
         </section>
-          
 
-
-
-
-  
-        
-    <!-- Events Grid -->
-    <section class="events-grid-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Available Events</h2>    
-                                  
-                   <div class="view-toggle-dropdown">
-                     
-   
-                   
-    <button class="view-btn-dropdown" id="viewBtn" onclick="toggleViewDropdown()">
-        Grid View 
-    </button>
-    <ul class="view-dropdown-menu" id="viewDropdown">
-        <li onclick="changeView('grid')">Grid View</li>
-        <li onclick="changeView('list')">List View</li>
-    </ul>
-</div>
-
-                </div>
-
-                <div id="eventsContainer" class="events-container-grid">
-                    <!-- Events will be loaded here -->
-                     
-                </div>
-
-                <div id="loadingEvents" class="loading-events">
-                    <div class="spinner"></div>
-                    <p>Loading events...</p>
-                </div>
-                
-                <div id="noEvents" class="no-events" style="display: none;">
-                    <div class="no-events-content">
-                        <h3>No events found</h3>
-                        <p>Try adjusting your filters or check back later for new opportunities.</p>
-                        <button class="btn-primary" onclick="clearFilters()">Clear Filters</button>
-                        <a href="CreateEvent.html"><button class="btn-secondary" style="margin-top: 1rem;">
-                            Create Event
-                        </button></a>
+        <!-- Events Grid -->
+        <section class="events-grid-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>Available Events</h2>  
                     </div>
-                </div>
-            </div>
-    </section>
-    <!-- Filters Section -->
-    <div class="filterdiv" id="filter" style="display:none;">
-    <section class="filters-section">
-            <div class="container">
-                <div class="filters-grid">
-                    <div class="filter-group">
-                        <label for="statusFilter">Status</label>
-                        <select id="statusFilter" onchange="filterEvents()">
-                            <option value="">All Status</option>
-                            <option value="active">Active (Upcoming/Ongoing)</option>
-                            <option value="completed">Completed</option>
-                            <option value="cancelled">Cancelled</option>
-                        </select>
+
+                    <div id="eventsContainer" class="events-container-grid">
+                        <!-- Events will be loaded here -->
+                        
+                    </div>
+
+                    <div id="loadingEvents" class="loading-events">
+                        <div class="spinner"></div>
+                        <p>Loading events...</p>
                     </div>
                     
-                    <div class="filter-group">
-                        <label for="locationFilter">Location</label>
-                        <input type="text" id="locationFilter" placeholder="Search location..." onkeyup="filterEvents()">
-                    </div>
-                    
-                    <div class="filter-group">
-                        <label for="dateFilter">Date Range</label>
-                        <select id="dateFilter" onchange="filterEvents()">
-                            <option value="">Any Date</option>
-                            <option value="today">Today</option>
-                            <option value="week">This Week</option>
-                            <option value="month">This Month</option>
-                            <option value="upcoming">Upcoming</option>
-                            <option value="past">Past Events</option>
-                        </select>
-                    </div>
-                    
-                    <div class="filter-group">
-                        <label for="categoryFilter">Category</label>
-                        <select id="categoryFilter" onchange="filterEvents()">
-                            <option value="">All Categories</option>
-                            <option value="environment">🌱 Environment</option>
-                            <option value="education">📚 Education</option>
-                            <option value="healthcare">🏥 Healthcare</option>
-                            <option value="community">🏘️ Community</option>
-                            <option value="animals">🐾 Animals</option>
-                            <option value="seniors">👵 Seniors</option>
-                            <option value="children">🧒 Children</option>
-                            <option value="other">🎯 Other</option>
-                        </select>
-                    </div>
-
-                    <!-- Your Events Filter -->
-                    <div class="filter-group your-events-filter">
-                        <label class="your-events-toggle">
-                            <input type="checkbox" id="showYourEvents" onchange="filterEvents()">
-                            <span>Show only my events</span>
-                        </label>
+                    <div id="noEvents" class="no-events" style="display: none;">
+                        <div class="no-events-content">
+                            <h3>No events found</h3>
+                            <p>Try adjusting your filters or check back later for new opportunities.</p>
+                            <button class="btn-primary" onclick="clearFilters()">Clear Filters</button>
+                            <a href="CreateEvent.html"><button class="btn-secondary" style="margin-top: 1rem;">
+                                Create Event
+                            </button></a>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="filter-actions">
-                    <button class="btn-sec" onclick="clearFilters()">
-                        Clear Filters
-                    </button>
-                    <button class="btn-pr" onclick="refreshEvents()">
-                        Refresh
-                    </button>
-                </div>
-            </div>
-    </section>
-    </div>
-  
+        </section>
+
 
     </div>
-    </div>
+
     
 
-        <!-- Blogs Main Content -->
+    <!-- Blogs Main Content -->
     <div class="blogs-container">
-    
-    
-            
-                
-                
-                <!-- Quick Stats -->
-                <div class="quick-stats" style="display:none;">
-                    <div class="stat">
-                        <span class="stat-number" id="totalBlogs">0</span>
-                        <span class="stat-label">Total Posts</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number" id="totalComments">0</span>
-                        <span class="stat-label">Total Comments</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number" id="yourPosts">0</span>
-                        <span class="stat-label">Your Posts</span>
-                    </div>
-                </div>
-            
-  
-
         <!-- Main Content Grid -->
         <section class="main-content">
             <div class="container">
@@ -265,30 +154,6 @@ function showBlogPublishedNotification() {
                                 <button class="btn-secondary" onclick="refreshBlogs()">
                                     Refresh
                                 </button>
-                                 <!-- Quick Stats -->
-                                <div class="quick-stats" style="display:none;">
-                                    <div class="stat">
-                                        <span class="stat-number" id="totalBlogs">0</span>
-                                        <span class="stat-label">Total Posts</span>
-                                    </div>
-                                    <div class="stat">
-                                        <span class="stat-number" id="totalComments">0</span>
-                                        <span class="stat-label">Total Comments</span>
-                                    </div>
-                                    <div class="stat">
-                                        <span class="stat-number" id="yourPosts">0</span>
-                                        <span class="stat-label">Your Posts</span>
-                                    </div>
-                                </div>
-                                <div class="sort-options" style="display: none;">
-                                    <label for="sortBy">Sort by:</label>
-                                    <select id="sortBy" onchange="sortBlogs()">
-                                        <option value="newest">Newest First</option>
-                                        <option value="oldest">Oldest First</option>
-                                        <option value="most_comments">Most Comments</option>
-                                        <option value="popular">Most Popular</option>
-                                    </select>
-                                </div>
                             </div>
                         </div>
 
@@ -328,22 +193,6 @@ function showBlogPublishedNotification() {
                             </button></a>
                         </div>
 
-                        <!-- Popular Tags -->
-                        <div class="sidebar-card" style="display:none;">
-                            <h3>Popular Tags</h3>
-                            <div class="tags-cloud" id="tagsCloud">
-                                <!-- Tags will be loaded here -->
-                            </div>
-                        </div>
-
-                        <!-- Top Contributors -->
-                        <div class="sidebar-card" style="display:none;">
-                            <h3>Top Contributors</h3>
-                            <div class="contributors-list" id="contributorsList">
-                                <!-- Contributors will be loaded here -->
-                            </div>
-                        </div>
-
                         <!-- Community Guidelines -->
                         <div class="sidebar-card guidelines">
                             <h3>Community Guidelines</h3>
@@ -363,9 +212,6 @@ function showBlogPublishedNotification() {
 
     <!-- Register -->
      <div id="notification" class="notification"></div>
-    
-
-
     <!-- event-details -->
     <div id="event-details"></div> 
     <!-- blog-details -->

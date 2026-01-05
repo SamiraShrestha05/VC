@@ -18,7 +18,6 @@ async function loadComponents() {
         { id: 'footer', file: 'components/footer.html' },
         { id: 'login-modal', file: 'components/login-modal.html' },
         { id: 'register-modal', file: 'components/register-modal.html' }, 
-        { id: 'blog-header', file: 'components/blog-header.html' },
         { id: 'blog-edit', file: 'components/blog-edit.html' },
         { id: 'event-edit', file: 'components/event-edit.html' },
         { id: 'event-details', file: 'components/event-details.html' },
