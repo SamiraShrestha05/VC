@@ -415,6 +415,7 @@ function viewEventDetails(eventId) {
 function closeEventDetails() {
     document.getElementById('eventDetailsModal').style.display = 'none';
 }
+
 const modal = document.getElementById('eventDetailsModal');
 modal.addEventListener('click', (e) => {
     const content = document.getElementById('eventDetailsContentWrapper'); // the inner div
