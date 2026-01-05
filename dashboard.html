@@ -87,11 +87,11 @@ function showBlogPublishedNotification() {
     <!-- Create Button -->
     <div class="floating-action">
         <button class="fab" id="createBtn">+</button>
-        <a href="CreateBlog.html"><img src="assets/images/b.png" alt="blog" id="b" class="b-img"></a>
-        <a href="CreateEvent.html"><img src="assets/images/e.png" alt="event" id="e" class="e-img"></a>
+        <a href="CreateBlog.html" class="fab-item"><span class="fab-text">Blog</span><img src="assets/images/b.png" alt="blog" id="b" class="b-img"></a>
+        <a href="CreateEvent.html" class="fab-item"><span class="fab-text">Events</span><img src="assets/images/e.png" alt="event" id="e" class="e-img"></a>
     </div>
     <!-- Up Button -->
-    <div class="floating-action">
+    <div class="float-action">
         <a href="#dashboard"><button class="up" id="upBtn">^</button></a>
     </div>
     
@@ -366,73 +366,6 @@ function showBlogPublishedNotification() {
     
 
 
-    <!-- Register Modal -->
-<div id="registerModal" class="modal" style="display:none;">
-  <div class="modal-content">
-    <h2>Confirm Registration?</h2>
-    
-    <!-- Hidden inputs to send IDs to PHP -->
-    <input type="hidden" id="registerEventId">
-    <input type="hidden" id="registerUserId">
-    
-    <button class="btn-p1" onclick="confirmRegistration()">Confirm</button>
-    <button class="btn-p2" onclick="closeRegisterModal()">Cancel</button>
-  </div>
-</div>
-
-
-<style>
-
-
-.modal-content {
-    width: 300px;
-    padding: 20px;
-    background: #ffffff;
-    color: #ffffff;
-    border-radius: 8px;
-}
-
-.btn-p1, .btn-p2 {
-    width: 45%;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    color: #ffffff;
-    cursor: pointer;
-    font-size: 15px;
-    margin-right: 10px;
-}
-
-.btn-p1 { background: #4caf50; }
-.btn-p1:hover { background: #43a047; }
-
-.btn-p2 { background: #eb5757; }
-.btn-p2:hover { background: #cd3a32; }
-
-.notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #4caf50;
-    color: white;
-    padding: 12px 20px;
-    border-radius: 6px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s, transform 0.4s;
-    z-index: 9999;
-}
-
-.notification.show {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateY(0);
-}
-
-
-
-</style>
     <!-- event-details -->
     <div id="event-details"></div> 
     <!-- blog-details -->
@@ -446,6 +379,76 @@ function showBlogPublishedNotification() {
 
     <!-- Footer -->
     <div id="footer"></div>
+
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <h2>Confirm Registration?</h2>
+        
+        <!-- Hidden inputs to send IDs to PHP -->
+        <input type="hidden" id="registerEventId">
+        <input type="hidden" id="registerUserId">
+        
+        <button class="btn-p1" onclick="confirmRegistration()">Confirm</button>
+        <button class="btn-p2" onclick="closeRegisterModal()">Cancel</button>
+    </div>
+    </div>
+
+
+    <style>
+
+
+    .modal-content {
+        width: 300px;
+        padding: 20px;
+        background: #ffffff;
+        color: #ffffff;
+        border-radius: 8px;
+        z-index: 1001;
+    }
+
+    .btn-p1, .btn-p2 {
+        width: 45%;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        color: #ffffff;
+        cursor: pointer;
+        font-size: 15px;
+        margin-right: 10px;
+    }
+
+    .btn-p1 { background: #4caf50; }
+    .btn-p1:hover { background: #43a047; }
+
+    .btn-p2 { background: #eb5757; }
+    .btn-p2:hover { background: #cd3a32; }
+
+    .notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #4caf50;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s, transform 0.4s;
+        z-index: 9999;
+    }
+
+    .notification.show {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+    }
+
+
+
+    </style>
 
     <!-- Scripts -->
     <script src="js/auth.js"></script>

@@ -1,4 +1,6 @@
-/* Container */
+/* ===============================
+   Floating Action Container
+================================ */
 .floating-action {
     position: fixed;
     bottom: 2rem;
@@ -7,31 +9,93 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    gap: 12px;
+    margin-bottom: 100px;
 }
 
-/* FAB Button */
+/* ===============================
+   Main FAB Button
+================================ */
 .fab {
     width: 60px;
     height: 60px;
     border-radius: 50%;
     background: #e74c3c;
-    color: white;
+    color: #fff;
     border: none;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
-    transition: all 0.3s;
+    box-shadow: 0 6px 18px rgba(231, 76, 60, 0.35);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: px;
+   
+    transition: transform 0.25s ease, background 0.25s ease;
 }
 
 .fab:hover {
     background: #c0392b;
-    transform: scale(1.1);
+    transform: scale(1.08);
 }
 
+/* ===============================
+   FAB Item (Text + Image)
+================================ */
+.fab-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px;
+    border-radius: 10px;
+    text-decoration: none;
+    opacity: 0;
+    transform: translateY(8px) scale(0.95);
+    transition: opacity 0.25s ease, transform 0.25s ease, background 0.25s ease;
+}
+
+.fab-item:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+/* Show items on hover */
+.floating-action:hover .fab-item {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* ===============================
+   Text Bubble
+================================ */
+.fab-text {
+    color: #000000;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    transition: transform 0.25s ease;
+}
+
+/* ===============================
+   Icons
+================================ */
+.b-img, .e-img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.25s ease;
+}
+
+.fab-item:hover .b-img, .fab-item:hover .fab-text,
+.fab-item:hover .e-img {
+    transform: scale(1.08);
+}
+
+
+/* up Button */
 .float-action {
     position: fixed;
     bottom: 2rem;
@@ -40,8 +104,8 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    gap: 12px;
 }
-/* up Button */
 .up {
     width: 40px;
     height: 40px;
@@ -62,36 +126,4 @@
 .up:hover {
     background: #c0392b;
     transform: scale(1.1);
-}
-
-
-/* Hidden images initially */
-.b-img, 
-.e-img {
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.3s ease;
-    position: relative; /* stays inside container */
-    cursor: pointer;
-}
-
-/* Sizes and spacing */
-.b-img {
-    width: 100px;
-    height: 100px;
-    margin-bottom: 10px;
-}
-
-.e-img {
-    width: 70px;
-    height: 70px;
-    margin-bottom: 100px;
-}
-
-
-/* Show images when hovering container */
-.floating-action:hover .b-img,
-.floating-action:hover .e-img {
-    opacity: 1;
-    transform: translateY(0);
 }

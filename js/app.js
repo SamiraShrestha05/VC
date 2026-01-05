@@ -22,9 +22,6 @@ async function loadComponents() {
         { id: 'blog-edit', file: 'components/blog-edit.html' },
         { id: 'event-edit', file: 'components/event-edit.html' },
         { id: 'event-details', file: 'components/event-details.html' },
-        { id: 'blog-details', file: 'components/blog-details.html' },
-        
-        
         
     ];
     for (const component of components) {
