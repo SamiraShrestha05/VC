@@ -129,6 +129,9 @@ async function handleBlogSubmit(event) {
             throw new Error(result.message || 'Failed to publish blog');
         }
 
+        // ✅ Add this line to make the notification appear
+        sessionStorage.setItem('blogPublished', 'true');
+
         window.location.href = 'dashboard.html';
 
     } catch (error) {
@@ -214,3 +217,14 @@ function cancelBlogCreation() {
         window.location.href = 'dashboard.html';
     }
 }
+
+function showPublishLoading(show) {
+    const publishText = document.getElementById('publishText');
+    const publishLoading = document.getElementById('publishLoading');
+    
+    if (publishText && publishLoading) {
+        publishText.style.display = show ? 'none' : 'inline';
+        publishLoading.style.display = show ? 'inline-block' : 'none';
+    }
+}
+
