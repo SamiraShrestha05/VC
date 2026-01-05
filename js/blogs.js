@@ -310,12 +310,12 @@ function viewBlogDetails(blogId) {
     content.innerHTML = `
         <h2>${blog.title}</h2>
 
-        <p style="opacity:0.8; font-size:14px; margin-bottom:10px;">
+        <p style="opacity:0.8; color:black; font-size:14px; margin-bottom:10px;">
             <strong>By:</strong> ${blog.author_name || 'Unknown'} |
             <strong>Date:</strong> ${formatDate(blog.created_at)}
         </p>
 
-        <p style="line-height:1.7;">${blog.content}</p>
+        <p style="line-height:1.7; color:black;">${blog.content}</p>
     `;
 
     modal.style.display = 'flex';
