@@ -1,0 +1,513 @@
+<!-- Simple Registration Management -->
+<div id="simpleRegistrationManagement" class="simple-management">
+    <h3><i class="fas fa-users"></i> Volunteer Registrations</h3>
+    
+    <!-- Registrations List -->
+    <div class="registrations-list" id="simpleRegistrationsList">
+        <div class="loading-item">
+            <i class="fas fa-spinner fa-spin"></i> Loading ...
+        </div>
+    </div>
+</div>
+
+<style>
+/* Simple Registration Management CSS */
+.simple-management {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.simple-management h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.registrations-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.registration-item {
+    background: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    padding: 15px;
+    transition: all 0.3s ease;
+}
+
+.registration-item:hover {
+    border-color: #3498db;
+    background: #f0f7ff;
+}
+
+.registration-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.volunteer-name {
+    font-weight: bold;
+    font-size: 16px;
+    color: #2c3e50;
+}
+
+.event-name {
+    color: #7f8c8d;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.registration-status {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-pending {
+    background: #fef9e7;
+    color: #f39c12;
+}
+
+.status-confirmed {
+    background: #e8f6ef;
+    color: #27ae60;
+}
+
+.status-cancelled {
+    background: #fdedec;
+    color: #e74c3c;
+}
+
+.email-status {
+    font-size: 13px;
+    margin: 5px 0;
+}
+
+.email-verified {
+    color: #27ae60;
+}
+
+.email-unverified {
+    color: #e74c3c;
+}
+
+.registration-details {
+    margin: 10px 0;
+    padding: 10px;
+    background: #fff;
+    border-radius: 4px;
+    border-left: 3px solid #3498db;
+}
+
+.detail-row {
+    display: flex;
+    margin: 5px 0;
+}
+
+.detail-label {
+    min-width: 120px;
+    color: #7f8c8d;
+    font-size: 14px;
+}
+
+.detail-value {
+    flex: 1;
+    font-size: 14px;
+}
+
+.registration-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.action-btn {
+    padding: 6px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: opacity 0.3s;
+}
+
+.action-btn:hover {
+    opacity: 0.9;
+}
+
+.btn-accept {
+    background: #27ae60;
+    color: white;
+}
+
+.btn-reject {
+    background: #e74c3c;
+    color: white;
+}
+
+.btn-view {
+    background: #3498db;
+    color: white;
+}
+
+.loading-item {
+    text-align: center;
+    padding: 30px;
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+.no-registrations {
+    text-align: center;
+    padding: 40px;
+    color: #95a5a6;
+    font-style: italic;
+}
+
+/* Simple Modal */
+.simple-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.simple-modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #7f8c8d;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .registration-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .registration-actions {
+        flex-direction: column;
+    }
+    
+    .action-btn {
+        justify-content: center;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    if (!currentUser) return;
+    
+    const managementDiv = document.getElementById('simpleRegistrationManagement');
+    
+    // Check if user is organizer
+    const userRole = currentUser.role || 'volunteer';
+    if (userRole !== 'organizer') {
+        managementDiv.style.display = 'none';
+        return;
+    }
+    
+    // Load registrations
+    loadSimpleRegistrations();
+    
+    async function loadSimpleRegistrations() {
+        const list = document.getElementById('simpleRegistrationsList');
+        list.innerHTML = '<div class="loading-item"><i class="fas fa-spinner fa-spin"></i> Loading registrations...</div>';
+        
+        try {
+            const response = await fetch('../../api/organizers/get_registrations.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                },
+                body: JSON.stringify({ 
+                    organizer_id: currentUser.user_id
+                })
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                const registrations = data.registrations || [];
+                renderRegistrationsList(registrations);
+            }
+        } catch (error) {
+            console.error('Error loading registrations:', error);
+            list.innerHTML = '<div class="no-registrations">Error loading registrations</div>';
+        }
+    }
+    
+    function renderRegistrationsList(registrations) {
+        const list = document.getElementById('simpleRegistrationsList');
+        
+        if (registrations.length === 0) {
+            list.innerHTML = '<div class="no-registrations">No volunteer registrations yet</div>';
+            return;
+        }
+        
+        list.innerHTML = registrations.map(reg => `
+            <div class="registration-item" data-id="${reg.registration_id}">
+                <div class="registration-header">
+                    <div>
+                        <div class="volunteer-name">${reg.full_name || 'Unknown Volunteer'}</div>
+                        <div class="event-name">${reg.event_title || 'Unknown Event'}</div>
+                    </div>
+                    <span class="registration-status status-${reg.status}">
+                        ${reg.status.charAt(0).toUpperCase() + reg.status.slice(1)}
+                    </span>
+                </div>
+                
+                <div class="email-status email-${reg.email_status}">
+                    <i class="fas ${reg.email_status === 'verified' ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+                    Email: ${reg.email_status === 'verified' ? 'Verified' : 'Not Verified'}
+                </div>
+                
+                <div class="registration-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Email:</span>
+                        <span class="detail-value">${reg.email || 'N/A'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Phone:</span>
+                        <span class="detail-value">${reg.phone || 'N/A'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Role:</span>
+                        <span class="detail-value">${reg.preferred_role || 'General'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Registered:</span>
+                        <span class="detail-value">${new Date(reg.registered_at).toLocaleDateString()}</span>
+                    </div>
+                </div>
+                
+                ${reg.status === 'pending' ? `
+                    <div class="registration-actions">
+                        <button class="action-btn btn-accept" onclick="acceptRegistration(${reg.registration_id})">
+                            <i class="fas fa-check"></i> Accept
+                        </button>
+                        <button class="action-btn btn-reject" onclick="rejectRegistration(${reg.registration_id})">
+                            <i class="fas fa-times"></i> Reject
+                        </button>
+                        <button class="action-btn btn-view" onclick="viewFullDetails(${reg.registration_id})">
+                            <i class="fas fa-eye"></i> View Details
+                        </button>
+                    </div>
+                ` : `
+                    <div class="registration-actions">
+                        <button class="action-btn btn-view" onclick="viewFullDetails(${reg.registration_id})">
+                            <i class="fas fa-eye"></i> View Details
+                        </button>
+                    </div>
+                `}
+            </div>
+        `).join('');
+    }
+    
+    window.acceptRegistration = async function(registrationId) {
+        if (!confirm('Accept this volunteer registration?')) return;
+        
+        try {
+            const response = await fetch('../../api/organizers/update_registration_status.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                },
+                body: JSON.stringify({ 
+                    registration_id: registrationId,
+                    new_status: 'confirmed'
+                })
+            });
+            
+            if (response.ok) {
+                alert('Registration accepted!');
+                loadSimpleRegistrations();
+            } else {
+                alert('Error accepting registration');
+            }
+        } catch (error) {
+            console.error('Error accepting registration:', error);
+            alert('Error accepting registration');
+        }
+    };
+    
+    window.rejectRegistration = async function(registrationId) {
+        if (!confirm('Reject this volunteer registration?')) return;
+        
+        try {
+            const response = await fetch('../../api/organizers/update_registration_status.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                },
+                body: JSON.stringify({ 
+                    registration_id: registrationId,
+                    new_status: 'cancelled'
+                })
+            });
+            
+            if (response.ok) {
+                alert('Registration rejected!');
+                loadSimpleRegistrations();
+            } else {
+                alert('Error rejecting registration');
+            }
+        } catch (error) {
+            console.error('Error rejecting registration:', error);
+            alert('Error rejecting registration');
+        }
+    };
+    
+    window.viewFullDetails = async function(registrationId) {
+        try {
+            const response = await fetch('../../api/organizers/get_registration_details.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                },
+                body: JSON.stringify({ registration_id: registrationId })
+            });
+            
+            if (response.ok) {
+                const details = await response.json();
+                showSimpleModal(details);
+            }
+        } catch (error) {
+            console.error('Error loading registration details:', error);
+            alert('Error loading details');
+        }
+    };
+    
+    function showSimpleModal(details) {
+        const modal = document.createElement('div');
+        modal.className = 'simple-modal active';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Volunteer Details</h4>
+                    <button class="close-btn" onclick="this.closest('.simple-modal').remove()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div style="margin-bottom: 20px;">
+                        <strong>Name:</strong> ${details.full_name}<br>
+                        <strong>Email:</strong> ${details.email}<br>
+                        <strong>Phone:</strong> ${details.phone || 'N/A'}<br>
+                        <strong>Date of Birth:</strong> ${details.date_of_birth || 'N/A'}<br>
+                        <strong>Emergency Contact:</strong> ${details.emergency_contact || 'N/A'}
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <strong>Event:</strong> ${details.event_title}<br>
+                        <strong>Preferred Role:</strong> ${details.preferred_role}<br>
+                        <strong>Time Slots:</strong> ${details.time_slots || 'Not specified'}
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <strong>Experience:</strong><br>${details.experience || 'None specified'}<br><br>
+                        <strong>Skills:</strong><br>${details.skills || 'None specified'}
+                    </div>
+                    
+                    <div>
+                        <strong>Registration Status:</strong> ${details.status}<br>
+                        <strong>Email Verification:</strong> ${details.email_status === 'verified' ? '✓ Verified' : '✗ Not Verified'}<br>
+                        <strong>Photo Release:</strong> ${details.photo_release ? '✓ Approved' : '✗ Not Approved'}<br>
+                        <strong>Registered:</strong> ${new Date(details.registered_at).toLocaleString()}
+                    </div>
+                    
+                    ${details.additional_notes ? `
+                        <div style="margin-top: 20px; padding: 10px; background: #f5f5f5; border-radius: 4px;">
+                            <strong>Additional Notes:</strong><br>${details.additional_notes}
+                        </div>
+                    ` : ''}
+                </div>
+                <div class="modal-footer">
+                    ${details.status === 'pending' ? `
+                        <button class="action-btn btn-accept" onclick="acceptRegistration(${details.registration_id}); this.closest('.simple-modal').remove()">
+                            Accept
+                        </button>
+                        <button class="action-btn btn-reject" onclick="rejectRegistration(${details.registration_id}); this.closest('.simple-modal').remove()">
+                            Reject
+                        </button>
+                    ` : ''}
+                    <button class="action-btn" onclick="this.closest('.simple-modal').remove()" style="background: #95a5a6;">
+                        Close
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        // Close modal when clicking outside
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.remove();
+            }
+        });
+    }
+});
+</script>
