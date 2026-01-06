@@ -48,7 +48,7 @@ try {
 
     // Update registration status to confirmed
     $stmt = $conn->prepare("UPDATE VOLUNTEER_REGISTRATION 
-                           SET status = 'confirmed' 
+                           SET email_status = 'verified' 
                            WHERE registration_id = :registration_id");
     $stmt->bindParam(':registration_id', $registration_id);
     $stmt->execute();
