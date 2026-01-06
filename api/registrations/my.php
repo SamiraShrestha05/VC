@@ -17,18 +17,22 @@ try {
     // Fetch user's volunteer registrations with event info
     $stmt = $conn->prepare("
         SELECT 
-            vr.registration_id,
-            vr.status AS registration_status,
-            vr.registered_at AS registration_date,
-            e.event_id,
-            e.title AS event_title,
-            e.description AS event_description,
-            e.start_datetime,
-            e.end_datetime
-        FROM VOLUNTEER_REGISTRATION vr
-        INNER JOIN EVENT e ON vr.event_id = e.event_id
-        WHERE vr.user_id = :user_id
-        ORDER BY vr.registered_at DESC
+        vr.registration_id,
+        vr.status as registration_status,
+        vr.registered_at,
+        e.event_id,
+        e.title as event_title,
+        e.description,
+        e.location,
+        e.start_datetime,
+        e.end_datetime,
+        e.status as event_status
+    FROM VOLUNTEER_REGISTRATION vr
+    JOIN EVENT e ON vr.event_id = e.event_id
+    WHERE vr.user_id = :user_id
+    ORDER BY 
+        vr.status = 'unverified' DESC,  -- Show unverified first
+        e.start_datetime ASC
     ");
 
     $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);

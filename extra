@@ -1,0 +1,150 @@
+ similar to this <!-- Volunteer Registration Modal -->
+<div id="volunteerRegisterModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Volunteer Registration</h2>
+        <p class="modal-subtitle">Join us in making a difference!</p>
+        
+        <form id="volunteerRegistrationForm" class="volunteer-form">
+            <!-- Hidden fields -->
+            <input type="hidden" id="volunteerEventId" name="eventId">
+            <input type="hidden" id="volunteerUserId" name="userId">
+            
+            <!-- Volunteer Information -->
+            <div class="form-section">
+                <h3>Personal Information</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fullName">Full Name *</label>
+                        <input type="text" id="fullName" name="fullName" required 
+                               placeholder="Enter your full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required 
+                               placeholder="your.email@example.com">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required 
+                               placeholder="(123) 456-7890">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="emergencyContact">Emergency Contact *</label>
+                        <input type="text" id="emergencyContact" name="emergencyContact" required 
+                               placeholder="Name and phone number">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="dateOfBirth">Date of Birth *</label>
+                    <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+                </div>
+            </div>
+            
+            <!-- Volunteer Preferences -->
+            <div class="form-section">
+                <h3>Volunteer Preferences</h3>
+                
+                <div class="form-group">
+                    <label for="volunteerRole">Preferred Role *</label>
+                    <select id="volunteerRole" name="volunteerRole" required>
+                        <option value="">Select a role</option>
+                        <option value="setup">Event Setup/Cleanup</option>
+                        <option value="registration">Registration Desk</option>
+                        <option value="food">Food Service</option>
+                        <option value="medical">Medical Support</option>
+                        <option value="entertainment">Entertainment/Activities</option>
+                        <option value="transportation">Transportation Assistance</option>
+                        <option value="other">Other (specify in notes)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Time Commitment *</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="timeSlots" value="morning">
+                            Morning (8 AM - 12 PM)
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="timeSlots" value="afternoon">
+                            Afternoon (12 PM - 4 PM)
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="timeSlots" value="evening">
+                            Evening (4 PM - 8 PM)
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="timeSlots" value="full-day">
+                            Full Day (8 AM - 8 PM)
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="experience">Previous Volunteer Experience</label>
+                    <textarea id="experience" name="experience" rows="3" 
+                              placeholder="Briefly describe any relevant experience..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="skills">Special Skills or Certifications</label>
+                    <textarea id="skills" name="skills" rows="3" 
+                              placeholder="First Aid, CPR, language skills, etc..."></textarea>
+                </div>
+            </div>
+            
+            <!-- Requirements & Agreement -->
+            <div class="form-section">
+                <h3>Requirements & Agreement</h3>
+                
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+                        I agree to the <a href="/terms" target="_blank">Terms of Service</a> and 
+                        <a href="/privacy" target="_blank">Privacy Policy</a> *
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="agreeCode" name="agreeCode" required>
+                        I agree to follow the Volunteer Code of Conduct *
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="photoRelease" name="photoRelease">
+                        I grant permission for photos/videos taken during the event to be used for promotional purposes
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label for="additionalNotes">Additional Notes or Special Requirements</label>
+                    <textarea id="additionalNotes" name="additionalNotes" rows="3" 
+                              placeholder="Dietary restrictions, accessibility needs, etc..."></textarea>
+                </div>
+            </div>
+            
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" onclick="closeVolunteerModal()">Cancel</button>
+                <button type="submit" class="btn-primary" id="submitBtn">
+                    <span class="btn-text">Submit Registration</span>
+                    <span class="spinner" style="display: none;">⏳</span>
+                </button>
+            </div>
+            
+            <p class="form-disclaimer">* Required fields</p>
+        </form>
+    </div>
+</div>
+

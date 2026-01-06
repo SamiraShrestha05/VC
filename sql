@@ -120,3 +120,60 @@ INSERT INTO BLOG (title, content, author_id) VALUES
 INSERT INTO VOLUNTEER_REGISTRATION (user_id, event_id, status) VALUES
 (2, 1, 'confirmed'),
 (2, 2, 'pending');
+
+-- EMAIL_VERIFICATION table
+CREATE TABLE EMAIL_VERIFICATION (
+    verification_id INT AUTO_INCREMENT PRIMARY KEY,
+    registration_id INT NOT NULL,
+    user_id INT NOT NULL,
+    event_id INT NOT NULL,
+    email_token VARCHAR(64) NOT NULL,
+    expires_at DATETIME NOT NULL,
+    verified_at DATETIME NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (registration_id) REFERENCES VOLUNTEER_REGISTRATION(registration_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES USER(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (event_id) REFERENCES EVENT(event_id) ON DELETE CASCADE,
+    
+    INDEX idx_token (email_token),
+    INDEX idx_expires (expires_at)
+);
+
+-- Update VOLUNTEER_REGISTRATION table to not create notification until verified
+-- We'll change the status to 'unverified' initially
+ALTER TABLE VOLUNTEER_REGISTRATION 
+MODIFY COLUMN email_status ENUM('unverified', 'verified') DEFAULT 'unverified';
+
+-- Update the trigger to only notify for verified registrations
+DROP TRIGGER IF EXISTS after_volunteer_registration;
+
+DELIMITER $$
+
+CREATE TRIGGER after_volunteer_registration_confirmed
+AFTER UPDATE ON VOLUNTEER_REGISTRATION
+FOR EACH ROW
+BEGIN
+    DECLARE author_id INT;
+    
+    -- Only trigger when status changes FROM 'unverified' TO 'verified'
+    IF OLD.status = 'unverified' AND NEW.status = 'verified' THEN
+        -- Get the event creator
+        SELECT created_by INTO author_id 
+        FROM EVENT 
+        WHERE event_id = NEW.event_id;
+
+        -- Only insert notification if author exists
+        IF author_id IS NOT NULL THEN
+            INSERT INTO NOTIFICATIONS (user_id, event_id, registration_id, message)
+            VALUES (
+                author_id,
+                NEW.event_id,
+                NEW.registration_id,
+                CONCAT('A volunteer has registered for your event (Registration ID: ', NEW.registration_id, ')')
+            );
+        END IF;
+    END IF;
+END$$
+
+DELIMITER ;
