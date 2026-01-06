@@ -39,6 +39,8 @@ CREATE TABLE VOLUNTEER_REGISTRATION (
     FOREIGN KEY (event_id) REFERENCES EVENT(event_id) ON DELETE CASCADE,
     UNIQUE KEY unique_registration (user_id, event_id)
 );
+ALTER TABLE VOLUNTEER_REGISTRATION 
+ADD COLUMN email_status ENUM('unverified', 'verified') DEFAULT 'unverified';
 
 CREATE TABLE NOTIFICATIONS (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -140,7 +142,23 @@ CREATE TABLE EMAIL_VERIFICATION (
     INDEX idx_expires (expires_at)
 );
 
--- Update VOLUNTEER_REGISTRATION table to not create notification until verified
--- We'll change the status to 'unverified' initially
-ALTER TABLE VOLUNTEER_REGISTRATION 
-ADD COLUMN email_status ENUM('unverified', 'verified') DEFAULT 'unverified';
+
+
+-- Create a new table for detailed volunteer information
+CREATE TABLE VOLUNTEER_DETAILS (
+    detail_id INT AUTO_INCREMENT PRIMARY KEY,
+    registration_id INT NOT NULL,
+    full_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(50) NOT NULL,
+    emergency_contact TEXT NOT NULL,
+    date_of_birth DATE NOT NULL,
+    preferred_role VARCHAR(100) NOT NULL,
+    time_slots TEXT,
+    experience TEXT,
+    skills TEXT,
+    photo_release BOOLEAN DEFAULT FALSE,
+    additional_notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (registration_id) REFERENCES VOLUNTEER_REGISTRATION(registration_id) ON DELETE CASCADE
+);
